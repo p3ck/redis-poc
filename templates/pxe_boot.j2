@@ -1,0 +1,7 @@
+default linux
+prompt 0
+timeout 100
+label linux
+    kernel {{ kernel_path }}
+    ipappend 2
+    append initrd={{ initrd_path }} {{ kernel_options }} netboot_method=pxe

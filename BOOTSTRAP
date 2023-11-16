@@ -1,0 +1,17 @@
+
+# Create systems
+curl -d '{"ip_address": "10.60.0.51", "bmc_address": "dci-jumpbox.dci.local", "bmc_user": "admin", "bmc_password": "password", "bmc_port": "6230", "bmc_type": "ipmitool_lanplus", "lab": "lab1"}' -X POST -H 'Content-Type: application/json' http://localhost:8000/systems/sut1.dci.local
+
+curl -d '{"ip_address": "10.60.0.52", "bmc_address": "dci-jumpbox.dci.local", "bmc_user": "admin", "bmc_password": "password", "bmc_port": "6231", "bmc_type": "ipmitool_lanplus", "lab": "lab1"}' -X POST -H 'Content-Type: application/json' http://localhost:8000/systems/sut2.dci.local
+
+
+# Netboot entries
+curl http://localhost:8080/netboots/sut1.dci.local/pxe
+curl http://localhost:8080/netboots/sut2.dci.local/pxe
+
+# Provision system
+# http://okd-master-0:8080/RHEL-8.9/compose/BaseOS/x86_64/os/images/pxeboot/vmlinuz
+# http://okd-master-0:8080/RHEL-8.9/compose/BaseOS/x86_64/os/images/pxeboot/initrd.img
+
+curl -d '{"action": "provision", "kernel_url": "http://okd-master-0:8080/RHEL-8.9/compose/BaseOS/x86_64/os/images/pxeboot/vmlinuz", "initrd_url": "http://okd-master-0:8080/RHEL-8.9/compose/BaseOS/x86_64/os/images/pxeboot/initrd.img"}' -X POST -H 'Content-Type: application/json' http://localhost:8000/systems/sut1.dci.local/actions
+curl -d '{"action": "provision", "kernel_url": "http://okd-master-0:8080/RHEL-8.9/compose/BaseOS/x86_64/os/images/pxeboot/vmlinuz", "initrd_url": "http://okd-master-0:8080/RHEL-8.9/compose/BaseOS/x86_64/os/images/pxeboot/initrd.img"}' -X POST -H 'Content-Type: application/json' http://localhost:8000/systems/sut2.dci.local/actions
